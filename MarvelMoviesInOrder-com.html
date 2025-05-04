@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marvel Universe Timeline | MarvelMoviesInOrder.com</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --marvel-red: #ed1d24;
+            --marvel-blue: #518cca;
+            --marvel-gold: #f0c232;
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #0a0c10;
+            color: #f5f5f7;
+            margin: 0;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(237, 29, 36, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(81, 140, 202, 0.05) 0%, transparent 50%);
+        }
+        
+        .hero-section {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 100%);
+            height: 400px;
+        }
+        
+        .marvel-gradient {
+            background: linear-gradient(to right, var(--marvel-red), var(--marvel-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--marvel-red);
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--marvel-red), var(--marvel-blue));
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            width: 45%;
+            margin: 20px 0;
+            border-radius: 12px;
+            background-color: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(237, 29, 36, 0.2);
+            border-color: rgba(237, 29, 36, 0.3);
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 52%;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 3%;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--marvel-red);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(237, 29, 36, 0.5);
+            z-index: 10;
+        }
+        
+        .timeline-item:nth-child(odd)::before {
+            left: -40px;
+        }
+        
+        .timeline-item:nth-child(even)::before {
+            right: -40px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 2px;
+            background: var(--marvel-red);
+            z-index: 9;
+        }
+        
+        .timeline-item:nth-child(odd)::after {
+            left: -20px;
+        }
+        
+        .timeline-item:nth-child(even)::after {
+            right: -20px;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+        }
+        
+        .timeline-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .movie-title {
+            color: var(--marvel-red);
+        }
+        
+        .tv-title {
+            color: var(--marvel-blue);
+        }
+        
+        .ratings {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .rating {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .rating-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        .critic {
+            color: var(--marvel-gold);
+        }
+        
+        .audience {
+            color: var(--marvel-blue);
+        }
+        
+        .rating-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+        
+        .phase-indicator {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 10px;
+            text-transform: uppercase;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .filter-btn.all {
+            background-color: #333;
+            color: white;
+        }
+        
+        .filter-btn.movies {
+            background-color: rgba(237, 29, 36, 0.2);
+            color: var(--marvel-red);
+            border-color: var(--marvel-red);
+        }
+        
+        .filter-btn.tv {
+            background-color: rgba(81, 140, 202, 0.2);
+            color: var(--marvel-blue);
+            border-color: var(--marvel-blue);
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .filter-btn.all:hover, .filter-btn.all.active {
+            background-color: #555;
+        }
+        
+        .filter-btn.movies:hover, .filter-btn.movies.active {
+            background-color: var(--marvel-red);
+            color: white;
+        }
+        
+        .filter-btn.tv:hover, .filter-btn.tv.active {
+            background-color: var(--marvel-blue);
+            color: white;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            padding-left: 50px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: rgba(30, 41, 59, 0.5);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: var(--marvel-red);
+            outline: none;
+            box-shadow: 0 0 15px rgba(237, 29, 36, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: 85%;
+                left: 40px !important;
+            }
+            
+            .timeline-item::before {
+                left: -20px !important;
+                right: auto !important;
+            }
+            
+            .timeline-item::after {
+                left: -0px !important;
+                right: auto !important;
+                width: 20px !important;
+            }
+            
+            .hero-section {
+                height: 300px;
+            }
+            
+            .search-box {
+                width: 90%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timeline-item {
+                width: 80%;
+            }
+            
+            .hero-section {
+                height: 250px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section flex items-center justify-center">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 marvel-gradient">MarvelMoviesInOrder</h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-8">The Ultimate Timeline of Movies & TV Shows</p>
+        </div>
+    </section>
+    
+    <!-- Search & Filter Section -->
+    <section class="py-10">
+        <div class="container mx-auto px-4">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" class="search-input" placeholder="Search Marvel titles...">
+            </div>
+            
+            <div class="filter-container">
+                <button class="filter-btn all active" data-filter="all">All Content</button>
+                <button class="filter-btn movies" data-filter="Movie">Movies</button>
+                <button class="filter-btn tv" data-filter="TV Show">TV Shows</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Timeline Section -->
+    <section id="timeline-section" class="py-10">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold section-title">Marvel Timeline</h2>
+            <div class="relative timeline" id="timeline-list"></div>
+        </div>
+    </section>
+    
+    <script>
+        // MCU Movies and TV Shows Data
+        const mcuContent = [
+            { title: "Iron Man", year: 2008, type: "Movie", criticScore: 94, audienceScore: 91, phase: 1 },
+            { title: "The Incredible Hulk", year: 2008, type: "Movie", criticScore: 67, audienceScore: 70, phase: 1 },
+            { title: "Iron Man 2", year: 2010, type: "Movie", criticScore: 73, audienceScore: 71, phase: 1 },
+            { title: "Thor", year: 2011, type: "Movie", criticScore: 77, audienceScore: 76, phase: 1 },
+            { title: "Captain America: The First Avenger", year: 2011, type: "Movie", criticScore: 80, audienceScore: 75, phase: 1 },
+            { title: "The Avengers", year: 2012, type: "Movie", criticScore: 91, audienceScore: 91, phase: 1 },
+            { title: "Iron Man 3", year: 2013, type: "Movie", criticScore: 79, audienceScore: 78, phase: 2 },
+            { title: "Thor: The Dark World", year: 2013, type: "Movie", criticScore: 67, audienceScore: 76, phase: 2 },
+            { title: "Captain America: The Winter Soldier", year: 2014, type: "Movie", criticScore: 90, audienceScore: 92, phase: 2 },
+            { title: "Guardians of the Galaxy", year: 2014, type: "Movie", criticScore: 92, audienceScore: 92, phase: 2 },
+            { title: "Avengers: Age of Ultron", year: 2015, type: "Movie", criticScore: 76, audienceScore: 83, phase: 2 },
+            { title: "Ant-Man", year: 2015, type: "Movie", criticScore: 83, audienceScore: 85, phase: 2 },
+            { title: "Captain America: Civil War", year: 2016, type: "Movie", criticScore: 91, audienceScore: 89, phase: 3 },
+            { title: "Doctor Strange", year: 2016, type: "Movie", criticScore: 89, audienceScore: 86, phase: 3 },
+            { title: "Guardians of the Galaxy Vol. 2", year: 2017, type: "Movie", criticScore: 85, audienceScore: 87, phase: 3 },
+            { title: "Spider-Man: Homecoming", year: 2017, type: "Movie", criticScore: 92, audienceScore: 87, phase: 3 },
+            { title: "Thor: Ragnarok", year: 2017, type: "Movie", criticScore: 93, audienceScore: 87, phase: 3 },
+            { title: "Black Panther", year: 2018, type: "Movie", criticScore: 96, audienceScore: 79, phase: 3 },
+            { title: "Avengers: Infinity War", year: 2018, type: "Movie", criticScore: 85, audienceScore: 91, phase: 3 },
+            { title: "Ant-Man and the Wasp", year: 2018, type: "Movie", criticScore: 87, audienceScore: 81, phase: 3 },
+            { title: "Captain Marvel", year: 2019, type: "Movie", criticScore: 79, audienceScore: 60, phase: 3 },
+            { title: "Avengers: Endgame", year: 2019, type: "Movie", criticScore: 94, audienceScore: 90, phase: 3 },
+            { title: "Spider-Man: Far From Home", year: 2019, type: "Movie", criticScore: 90, audienceScore: 95, phase: 3 },
+            { title: "WandaVision", year: 2021, type: "TV Show", criticScore: 92, audienceScore: 88, phase: 4 },
+            { title: "The Falcon and the Winter Soldier", year: 2021, type: "TV Show", criticScore: 85, audienceScore: 80, phase: 4 },
+            { title: "Loki: Season 1", year: 2021, type: "TV Show", criticScore: 92, audienceScore: 92, phase: 4 },
+            { title: "What If...?: Season 1", year: 2021, type: "TV Show", criticScore: 94, audienceScore: 92, phase: 4 },
+            { title: "Hawkeye", year: 2021, type: "TV Show", criticScore: 92, audienceScore: 89, phase: 4 },
+            { title: "Black Widow", year: 2021, type: "Movie", criticScore: 79, audienceScore: 80, phase: 4 },
+            { title: "Shang-Chi and the Legend of the Ten Rings", year: 2021, type: "Movie", criticScore: 91, audienceScore: 98, phase: 4 },
+            { title: "Eternals", year: 2021, type: "Movie", criticScore: 47, audienceScore: 77, phase: 4 },
+            { title: "Spider-Man: No Way Home", year: 2021, type: "Movie", criticScore: 93, audienceScore: 98, phase: 4 },
+            { title: "Moon Knight", year: 2022, type: "TV Show", criticScore: 86, audienceScore: 89, phase: 4 },
+            { title: "Ms. Marvel", year: 2022, type: "TV Show", criticScore: 98, audienceScore: 80, phase: 4 },
+            { title: "Doctor Strange in the Multiverse of Madness", year: 2022, type: "Movie", criticScore: 74, audienceScore: 85, phase: 4 },
+            { title: "Thor: Love and Thunder", year: 2022, type: "Movie", criticScore: 63, audienceScore: 77, phase: 4 },
+            { title: "She-Hulk: Attorney at Law", year: 2022, type: "TV Show", criticScore: 77, audienceScore: 32, phase: 4 },
+            { title: "Werewolf by Night", year: 2022, type: "TV Show", criticScore: 90, audienceScore: 88, phase: 4 },
+            { title: "The Guardians of the Galaxy Holiday Special", year: 2022, type: "TV Show", criticScore: 92, audienceScore: 80, phase: 4 },
+            { title: "Black Panther: Wakanda Forever", year: 2022, type: "Movie", criticScore: 84, audienceScore: 94, phase: 4 },
+            { title: "Ant-Man and the Wasp: Quantumania", year: 2023, type: "Movie", criticScore: 46, audienceScore: 81, phase: 5 },
+            { title: "Guardians of the Galaxy Vol. 3", year: 2023, type: "Movie", criticScore: 82, audienceScore: 94, phase: 5 },
+            { title: "Secret Invasion", year: 2023, type: "TV Show", criticScore: 52, audienceScore: 44, phase: 5 },
+            { title: "What If...?: Season 2", year: 2023, type: "TV Show", criticScore: 90, audienceScore: 76, phase: 5 },
+            { title: "Loki: Season 2", year: 2023, type: "TV Show", criticScore: 82, audienceScore: 82, phase: 5 },
+            { title: "The Marvels", year: 2023, type: "Movie", criticScore: 62, audienceScore: 83, phase: 5 },
+            { title: "Echo", year: 2024, type: "TV Show", criticScore: 60, audienceScore: 67, phase: 5 },
+            { title: "Agatha All Along", year: 2024, type: "TV Show", criticScore: 83, audienceScore: 65, phase: 5 },
+            { title: "What If...?: Season 3", year: 2024, type: "TV Show", criticScore: 72, audienceScore: 62, phase: 5 },
+            { title: "X-Men '97: Season 1", year: 2024, type: "TV Show", criticScore: 99, audienceScore: 94, phase: 5 },
+            { title: "Deadpool & Wolverine", year: 2024, type: "Movie", criticScore: 78, audienceScore: 95, phase: 5 },
+            { title: "Captain America: Brave New World", year: 2025, type: "Movie", criticScore: 53, audienceScore: 85, phase: 5 },
+            { title: "Daredevil: Born Again", year: 2025, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 5 },
+            { title: "Ironheart", year: 2025, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 5 },
+            { title: "Wonder Man", year: 2025, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 5 },
+            { title: "Your Friendly Neighborhood Spider-Man", year: 2025, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 5 },
+            { title: "Marvel Zombies", year: 2025, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 5 },
+            { title: "Eyes of Wakanda", year: 2025, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 5 },
+            { title: "Thunderbolts*", year: 2025, type: "Movie", criticScore: 95, audienceScore: "TBD", phase: 5 },
+            { title: "The Fantastic Four: First Steps", year: "2025-07-25", type: "Movie", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "Vision Quest", year: 2026, type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "Avengers: Doomsday", year: "2026-05-01", type: "Movie", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "Spider-Man 4", year: "2026-07-24", type: "Movie", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "Avengers: Secret Wars", year: "2027-05-07", type: "Movie", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "X-Men '97: Season 2", year: "TBD", type: "TV Show", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "Blade", year: "TBD", type: "Movie", criticScore: "TBD", audienceScore: "TBD", phase: 6 },
+            { title: "Shang-Chi 2", year: "TBD", type: "Movie", criticScore: "TBD", audienceScore: "TBD", phase: 6 }
+        ];
+
+        // Function to render timeline
+        function renderTimeline(data) {
+            const timelineContainer = document.getElementById('timeline-list');
+            if (!timelineContainer) {
+                console.error('Timeline container not found');
+                return;
+            }
+            timelineContainer.innerHTML = '';
+
+            data.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = `timeline-item p-6 rounded-lg fade-in ${index % 2 === 0 ? 'even' : 'odd'}`;
+                timelineItem.setAttribute('role', 'article');
+                timelineItem.setAttribute('tabindex', '0');
+                timelineItem.style.animationDelay = `${index * 0.1}s`;
+                timelineItem.innerHTML = `
+                    <div class="timeline-content">
+                        <h4 class="timeline-title ${item.type === 'Movie' ? 'movie-title' : 'tv-title'}">${item.title}</h4>
+                        <p class="text-base text-gray-300">Type: ${item.type}</p>
+                        <p class="text-base text-gray-300">Year: ${item.year}</p>
+                        <div class="ratings">
+                            <div class="rating">
+                                <span class="rating-value critic">${item.criticScore}${item.criticScore !== 'TBD' ? '%' : ''}</span>
+                                <span class="rating-label">Critic Score</span>
+                            </div>
+                            <div class="rating">
+                                <span class="rating-value audience">${item.audienceScore}${item.audienceScore !== 'TBD' ? '%' : ''}</span>
+                                <span class="rating-label">Audience Score</span>
+                            </div>
+                        </div>
+                        <span class="phase-indicator">Phase ${item.phase}</span>
+                    </div>
+                `;
+                timelineItem.addEventListener('click', () => alert(`More details about ${item.title} (Placeholder)`));
+                timelineItem.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        timelineItem.click();
+                    }
+                });
+                timelineContainer.appendChild(timelineItem);
+            });
+        }
+
+        // Filter and Search Functionality
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('search-input');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    const filter = button.getAttribute('data-filter');
+                    const searchTerm = searchInput.value.toLowerCase();
+                    let filteredData = mcuContent;
+
+                    if (filter !== 'all') {
+                        filteredData = mcuContent.filter(item => item.type === filter);
+                    }
+
+                    if (searchTerm) {
+                        filteredData = filteredData.filter(item => 
+                            item.title.toLowerCase().includes(searchTerm)
+                        );
+                    }
+
+                    filteredData.sort((a, b) => {
+                        const yearA = typeof a.year === 'string' ? parseInt(a.year.split('-')[0]) || 9999 : a.year;
+                        const yearB = typeof b.year === 'string' ? parseInt(b.year.split('-')[0]) || 9999 : b.year;
+                        return yearA - yearB || a.title.localeCompare(b.title);
+                    });
+
+                    renderTimeline(filteredData);
+                });
+            });
+
+            searchInput.addEventListener('input', () => {
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                const searchTerm = searchInput.value.toLowerCase();
+                let filteredData = mcuContent;
+
+                if (activeFilter !== 'all') {
+                    filteredData = mcuContent.filter(item => item.type === activeFilter);
+                }
+
+                if (searchTerm) {
+                    filteredData = filteredData.filter(item => 
+                        item.title.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                filteredData.sort((a, b) => {
+                    const yearA = typeof a.year === 'string' ? parseInt(a.year.split('-')[0]) || 9999 : a.year;
+                    const yearB = typeof b.year === 'string' ? parseInt(b.year.split('-')[0]) || 9999 : b.year;
+                    return yearA - yearB || a.title.localeCompare(b.title);
+                });
+
+                renderTimeline(filteredData);
+            });
+        }
+
+        // Initial Render
+        try {
+            renderTimeline(mcuContent.sort((a, b) => {
+                const yearA = typeof a.year === 'string' ? parseInt(a.year.split('-')[0]) || 9999 : a.year;
+                const yearB = typeof b.year === 'string' ? parseInt(b.year.split('-')[0]) || 9999 : b.year;
+                return yearA - yearB || a.title.localeCompare(b.title);
+            }));
+            setupFilters();
+        } catch (error) {
+            console.error('Error rendering timeline:', error);
+        }
+    </script>
+</body>
+</html>
