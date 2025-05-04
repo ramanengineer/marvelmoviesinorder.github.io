@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marvel Universe Timeline | MarvelMoviesInOrder.com</title>
+    <meta name="description" content="Explore the complete Marvel Cinematic Universe timeline, including all MCU movies and TV shows in chronological order. Filter by movies, TV shows, or search by title.">
+    <meta name="keywords" content="Marvel Cinematic Universe, MCU timeline, Marvel movies, Marvel TV shows, Marvel movies in order, MCU phases">
+    <meta name="author" content="MarvelMoviesInOrder.com">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Marvel Universe Timeline | MarvelMoviesInOrder.com">
+    <meta property="og:description" content="Discover the ultimate Marvel Cinematic Universe timeline with all MCU movies and TV shows. Search and filter by type or title.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.marvelmoviesinorder.com/">
+    <meta property="og:image" content="https://www.marvelmoviesinorder.com/images/marvel-timeline-og.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Marvel Universe Timeline | MarvelMoviesInOrder.com">
+    <meta name="twitter:description" content="Your guide to the Marvel Cinematic Universe timeline, featuring all MCU movies and TV shows in order.">
+    <meta name="twitter:image" content="https://www.marvelmoviesinorder.com/images/marvel-timeline-og.jpg">
+    <link rel="canonical" href="https://www.marvelmoviesinorder.com/">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -332,38 +347,79 @@
     </style>
 </head>
 <body>
+    <!-- Header with Navigation -->
+    <header>
+        <nav aria-label="Main navigation">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <a href="/" class="text-2xl font-bold marvel-gradient"></a>
+                <ul class="flex space-x-4">
+                    <li><a href="#timeline-section" class="text-gray-300 hover:text-white">Timeline</a></li>
+                    <li><a href="/about" class="text-gray-300 hover:text-white">About</a></li>
+                    <li><a href="/contact" class="text-gray-300 hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <!-- Hero Section -->
-    <section class="hero-section flex items-center justify-center">
+    <section class="hero-section flex items-center justify-center" role="banner">
         <div class="container mx-auto px-4 text-center">
             <h1 class="text-4xl md:text-6xl font-bold mb-4 marvel-gradient">MarvelMoviesInOrder</h1>
-            <p class="text-lg md:text-xl text-gray-300 mb-8">The Ultimate Timeline of Movies & TV Shows</p>
+            <p class="text-lg md:text-xl text-gray-300 mb-8">The Ultimate Timeline of Marvel Cinematic Universe Movies & TV Shows</p>
         </div>
     </section>
     
     <!-- Search & Filter Section -->
-    <section class="py-10">
+    <section class="py-10" aria-label="Search and filter">
         <div class="container mx-auto px-4">
             <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="search-input" class="search-input" placeholder="Search Marvel titles...">
+                <span class="search-icon" aria-hidden="true">🔍</span>
+                <input type="text" id="search-input" class="search-input" placeholder="Search Marvel titles..." aria-label="Search Marvel movies and TV shows">
             </div>
             
-            <div class="filter-container">
-                <button class="filter-btn all active" data-filter="all">All Content</button>
-                <button class="filter-btn movies" data-filter="Movie">Movies</button>
-                <button class="filter-btn tv" data-filter="TV Show">TV Shows</button>
+            <div class="filter-container" role="tablist">
+                <button class="filter-btn all active" data-filter="all" role="tab" aria-selected="true">All Content</button>
+                <button class="filter-btn movies" data-filter="Movie" role="tab" aria-selected="false">Movies</button>
+                <button class="filter-btn tv" data-filter="TV Show" role="tab" aria-selected="false">TV Shows</button>
             </div>
         </div>
     </section>
     
     <!-- Timeline Section -->
-    <section id="timeline-section" class="py-10">
+    <section id="timeline-section" class="py-10" aria-label="Marvel Cinematic Universe Timeline">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl md:text-4xl font-bold section-title">Marvel Timeline</h2>
-            <div class="relative timeline" id="timeline-list"></div>
+            <h2 class="text-3xl md:text-4xl font-bold section-title">Marvel Cinematic Universe Timeline</h2>
+            <div class="relative timeline" id="timeline-list" role="list"></div>
         </div>
     </section>
-    
+
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-900">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">&copy; 2025 MarvelMoviesInOrder.com. All rights reserved.</p>
+            <ul class="flex justify-center space-x-4 mt-4">
+                <li><a href="/privacy" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                <li><a href="/terms" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MarvelMoviesInOrder.com",
+        "url": "https://www.marvelmoviesinorder.com/",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.marvelmoviesinorder.com/?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
     <script>
         // MCU Movies and TV Shows Data
         const mcuContent = [
@@ -453,7 +509,7 @@
                 timelineItem.style.animationDelay = `${index * 0.1}s`;
                 timelineItem.innerHTML = `
                     <div class="timeline-content">
-                        <h4 class="timeline-title ${item.type === 'Movie' ? 'movie-title' : 'tv-title'}">${item.title}</h4>
+                        <h3 class="timeline-title ${item.type === 'Movie' ? 'movie-title' : 'tv-title'}">${item.title}</h3>
                         <p class="text-base text-gray-300">Type: ${item.type}</p>
                         <p class="text-base text-gray-300">Year: ${item.year}</p>
                         <div class="ratings">
@@ -469,13 +525,33 @@
                         <span class="phase-indicator">Phase ${item.phase}</span>
                     </div>
                 `;
-                timelineItem.addEventListener('click', () => alert(`More details about ${item.title} (Placeholder)`));
+                timelineItem.addEventListener('click', () => {
+                    window.location.href = `/title/${encodeURIComponent(item.title.toLowerCase().replace(/\s+/g, '-'))}`;
+                });
                 timelineItem.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         timelineItem.click();
                     }
                 });
                 timelineContainer.appendChild(timelineItem);
+
+                // Add structured data for each timeline item
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": item.type === "Movie" ? "Movie" : "TVShow",
+                    "name": item.title,
+                    "datePublished": item.year,
+                    "aggregateRating": item.criticScore !== "TBD" ? {
+                        "@type": "AggregateRating",
+                        "ratingValue": item.criticScore,
+                        "bestRating": 100,
+                        "ratingCount": 1000
+                    } : null,
+                    "url": `https://www.marvelmoviesinorder.com/title/${encodeURIComponent(item.title.toLowerCase().replace(/\s+/g, '-'))}`
+                });
+                document.body.appendChild(script);
             });
         }
 
@@ -486,8 +562,12 @@
 
             filterButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
                     button.classList.add('active');
+                    button.setAttribute('aria-selected', 'true');
                     const filter = button.getAttribute('data-filter');
                     const searchTerm = searchInput.value.toLowerCase();
                     let filteredData = mcuContent;
