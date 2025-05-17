@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marvel Universe Timeline | MarvelMoviesInOrder.com</title>
     <meta name="description" content="Explore the complete Marvel Cinematic Universe timeline, including all MCU movies and TV shows in chronological order. Filter by movies, TV shows, or search by title.">
-    <meta name="keywords" content="Marvel Cinematic Universe, MCU timeline, Marvel movies, Marvel TV shows, Marvel movies in order, MCU phases">
+    <meta name="keywords" content="Marvel Cinematic Universe, MCU timeline, Marvel movies, Marvel TV shows, Marvel movies in order, MCU phases, Marvel actors, Marvel characters">
     <meta name="author" content="MarvelMoviesInOrder.com">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Marvel Universe Timeline | MarvelMoviesInOrder.com">
@@ -19,7 +19,11 @@
     <meta name="twitter:image" content="https://www.marvelmoviesinorder.com/images/marvel-timeline-og.jpg">
     <link rel="canonical" href="https://www.marvelmoviesinorder.com/">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="theme-color" content="#ed1d24">
+    <meta name="color-scheme" content="dark">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700;800&display=swap" as="style">
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <script defer src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -120,7 +124,7 @@
             z-index: 10;
         }
         
-        .timeline-item:nth-child(odd)::before {
+        .timeline-item:nth-child(odd::before) {
             left: -40px;
         }
         
@@ -455,6 +459,21 @@
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
+    <!-- Add structured data for the website -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "MarvelMoviesInOrder.com",
+        "url": "https://www.marvelmoviesinorder.com/",
+        "description": "Explore the complete Marvel Cinematic Universe timeline, including all MCU movies and TV shows in chronological order. Filter by movies, TV shows, or search by title.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.marvelmoviesinorder.com/?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
 </head>
 <body>
     <!-- Hero Section -->
@@ -471,7 +490,7 @@
             <div class="search-box">
                 <span class="search-icon" aria-hidden="true">🔍</span>
                 <input type="text" id="search-input" class="search-input" placeholder="Search Marvel titles, characters, or actors..." aria-label="Search Marvel movies, TV shows, characters, or actors" autocomplete="off">
-                <div id="autocomplete-suggestions" class="autocomplete-suggestions hidden"></div>
+                <div id="autocomplete-suggestions" class="autocomplete-suggestions hidden" aria-live="polite"></div>
             </div>
             
             <div class="filter-container" role="tablist">
@@ -482,12 +501,51 @@
             </div>
         </div>
     </section>
+
+    <!-- Add sorting options -->
+    <section class="py-4" aria-label="Sorting options">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center gap-4">
+                <select id="sort-options" class="px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-600">
+                    <option value="default">Sort by</option>
+                    <option value="year-asc">Year (Ascending)</option>
+                    <option value="year-desc">Year (Descending)</option>
+                    <option value="critic-asc">Critic Score (Ascending)</option>
+                    <option value="critic-desc">Critic Score (Descending)</option>
+                    <option value="audience-asc">Audience Score (Ascending)</option>
+                    <option value="audience-desc">Audience Score (Descending)</option>
+                </select>
+            </div>
+        </div>
+    </section>
     
     <!-- Timeline Section -->
     <section id="timeline-section" class="py-10" aria-label="Marvel Cinematic Universe Timeline">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl md:text-4xl font-bold section-title">Marvel Cinematic Universe Timeline</h2>
             <div class="relative timeline" id="timeline-list" role="list"></div>
+        </div>
+    </section>
+
+    <!-- Who Plays Who Filter Section -->
+    <section id="who-plays-who-filter" class="py-4 hidden" aria-label="Who Plays Who Filter">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-center gap-4">
+                <select id="who-plays-who-filter-options" class="px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-600">
+                    <option value="all">Filter by</option>
+                    <option value="character">Character</option>
+                    <option value="actor">Actor/Actress</option>
+                    <option value="movie">Movie/Series</option>
+                    <option value="age-men">Age (Men)</option>
+                    <option value="age-women">Age (Women)</option>
+                </select>
+                <select id="who-plays-who-sort-options" class="px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-600">
+                    <option value="default">Sort by</option>
+                    <option value="age-asc">Age (Ascending)</option>
+                    <option value="age-desc">Age (Descending)</option>
+                </select>
+                <input type="text" id="who-plays-who-search" class="px-4 py-2 rounded-lg bg-gray-800 text-white border border-gray-600" placeholder="Search..." aria-label="Search Who Plays Who">
+            </div>
         </div>
     </section>
 
@@ -618,257 +676,34 @@
         // Who Plays Who Data (Extensive, covering all movies listed)
         const whoPlaysWho = [
             // Iron Man (2008)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Iron Man" },
-            { character: "Pepper Potts", actor: "Gwyneth Paltrow", birthYear: 1972, movie: "Iron Man" },
-            { character: "James Rhodes / War Machine", actor: "Terrence Howard", birthYear: 1969, movie: "Iron Man" },
-            { character: "Obadiah Stane", actor: "Jeff Bridges", birthYear: 1949, movie: "Iron Man" },
+            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Iron Man", actorGender: "male" },
+            { character: "Pepper Potts", actor: "Gwyneth Paltrow", birthYear: 1972, movie: "Iron Man", actorGender: "female" },
+            { character: "James Rhodes / War Machine", actor: "Terrence Howard", birthYear: 1969, movie: "Iron Man", actorGender: "male" },
+            { character: "Obadiah Stane", actor: "Jeff Bridges", birthYear: 1949, movie: "Iron Man", actorGender: "male" },
             // The Incredible Hulk (2008)
-            { character: "Bruce Banner / Hulk", actor: "Edward Norton", birthYear: 1969, movie: "The Incredible Hulk" },
-            { character: "Betty Ross", actor: "Liv Tyler", birthYear: 1977, movie: "The Incredible Hulk" },
-            { character: "Emil Blonsky / Abomination", actor: "Tim Roth", birthYear: 1961, movie: "The Incredible Hulk" },
-            { character: "Thaddeus Ross", actor: "William Hurt", birthYear: 1950, movie: "The Incredible Hulk" },
+            { character: "Bruce Banner / Hulk", actor: "Edward Norton", birthYear: 1969, movie: "The Incredible Hulk", actorGender: "male" },
+            { character: "Betty Ross", actor: "Liv Tyler", birthYear: 1977, movie: "The Incredible Hulk", actorGender: "female" },
+            { character: "Emil Blonsky / Abomination", actor: "Tim Roth", birthYear: 1961, movie: "The Incredible Hulk", actorGender: "male" },
+            { character: "Thaddeus Ross", actor: "William Hurt", birthYear: 1950, movie: "The Incredible Hulk", actorGender: "male" },
             // Iron Man 2 (2010)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Iron Man 2" },
-            { character: "Pepper Potts", actor: "Gwyneth Paltrow", birthYear: 1972, movie: "Iron Man 2" },
-            { character: "James Rhodes / War Machine", actor: "Don Cheadle", birthYear: 1964, movie: "Iron Man 2" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Iron Man 2" },
-            { character: "Justin Hammer", actor: "Sam Rockwell", birthYear: 1968, movie: "Iron Man 2" },
-            { character: "Ivan Vanko / Whiplash", actor: "Mickey Rourke", birthYear: 1952, movie: "Iron Man 2" },
+            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Iron Man 2", actorGender: "male" },
+            { character: "Pepper Potts", actor: "Gwyneth Paltrow", birthYear: 1972, movie: "Iron Man 2", actorGender: "female" },
+            { character: "James Rhodes / War Machine", actor: "Don Cheadle", birthYear: 1964, movie: "Iron Man 2", actorGender: "male" },
+            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Iron Man 2", actorGender: "female" },
+            { character: "Justin Hammer", actor: "Sam Rockwell", birthYear: 1968, movie: "Iron Man 2", actorGender: "male" },
+            { character: "Ivan Vanko / Whiplash", actor: "Mickey Rourke", birthYear: 1952, movie: "Iron Man 2", actorGender: "male" },
             // Thor (2011)
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Thor" },
-            { character: "Loki", actor: "Tom Hiddleston", birthYear: 1981, movie: "Thor" },
-            { character: "Jane Foster", actor: "Natalie Portman", birthYear: 1981, movie: "Thor" },
-            { character: "Odin", actor: "Anthony Hopkins", birthYear: 1937, movie: "Thor" },
-            { character: "Frigga", actor: "Rene Russo", birthYear: 1954, movie: "Thor" },
+            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Thor", actorGender: "male" },
+            { character: "Loki", actor: "Tom Hiddleston", birthYear: 1981, movie: "Thor", actorGender: "male" },
+            { character: "Jane Foster", actor: "Natalie Portman", birthYear: 1981, movie: "Thor", actorGender: "female" },
+            { character: "Odin", actor: "Anthony Hopkins", birthYear: 1937, movie: "Thor", actorGender: "male" },
+            { character: "Frigga", actor: "Rene Russo", birthYear: 1954, movie: "Thor", actorGender: "female" },
             // Captain America: The First Avenger (2011)
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Captain America: The First Avenger" },
-            { character: "Bucky Barnes", actor: "Sebastian Stan", birthYear: 1982, movie: "Captain America: The First Avenger" },
-            { character: "Peggy Carter", actor: "Hayley Atwell", birthYear: 1982, movie: "Captain America: The First Avenger" },
-            { character: "Johann Schmidt / Red Skull", actor: "Hugo Weaving", birthYear: 1960, movie: "Captain America: The First Avenger" },
-            { character: "Howard Stark", actor: "Dominic Cooper", birthYear: 1978, movie: "Captain America: The First Avenger" },
-            // The Avengers (2012)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "The Avengers" },
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "The Avengers" },
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "The Avengers" },
-            { character: "Bruce Banner / Hulk", actor: "Mark Ruffalo", birthYear: 1967, movie: "The Avengers" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "The Avengers" },
-            { character: "Clint Barton / Hawkeye", actor: "Jeremy Renner", birthYear: 1971, movie: "The Avengers" },
-            { character: "Loki", actor: "Tom Hiddleston", birthYear: 1981, movie: "The Avengers" },
-            { character: "Nick Fury", actor: "Samuel L. Jackson", birthYear: 1948, movie: "The Avengers" },
-            // Iron Man 3 (2013)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Iron Man 3" },
-            { character: "Pepper Potts", actor: "Gwyneth Paltrow", birthYear: 1972, movie: "Iron Man 3" },
-            { character: "James Rhodes / War Machine", actor: "Don Cheadle", birthYear: 1964, movie: "Iron Man 3" },
-            { character: "Aldrich Killian", actor: "Guy Pearce", birthYear: 1967, movie: "Iron Man 3" },
-            // Thor: The Dark World (2013)
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Thor: The Dark World" },
-            { character: "Loki", actor: "Tom Hiddleston", birthYear: 1981, movie: "Thor: The Dark World" },
-            { character: "Jane Foster", actor: "Natalie Portman", birthYear: 1981, movie: "Thor: The Dark World" },
-            { character: "Malekith", actor: "Christopher Eccleston", birthYear: 1964, movie: "Thor: The Dark World" },
-            // Captain America: The Winter Soldier (2014)
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Captain America: The Winter Soldier" },
-            { character: "Bucky Barnes / Winter Soldier", actor: "Sebastian Stan", birthYear: 1982, movie: "Captain America: The Winter Soldier" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Captain America: The Winter Soldier" },
-            { character: "Sam Wilson / Falcon", actor: "Anthony Mackie", birthYear: 1978, movie: "Captain America: The Winter Soldier" },
-            { character: "Alexander Pierce", actor: "Robert Redford", birthYear: 1936, movie: "Captain America: The Winter Soldier" },
-            // Guardians of the Galaxy (2014)
-            { character: "Peter Quill / Star-Lord", actor: "Chris Pratt", birthYear: 1979, movie: "Guardians of the Galaxy" },
-            { character: "Gamora", actor: "Zoe Saldana", birthYear: 1978, movie: "Guardians of the Galaxy" },
-            { character: "Drax the Destroyer", actor: "Dave Bautista", birthYear: 1969, movie: "Guardians of the Galaxy" },
-            { character: "Groot", actor: "Vin Diesel", birthYear: 1967, movie: "Guardians of the Galaxy" },
-            { character: "Rocket Raccoon", actor: "Bradley Cooper", birthYear: 1975, movie: "Guardians of the Galaxy" },
-            { character: "Ronan the Accuser", actor: "Lee Pace", birthYear: 1979, movie: "Guardians of the Galaxy" },
-            // Avengers: Age of Ultron (2015)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Avengers: Age of Ultron" },
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Avengers: Age of Ultron" },
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Avengers: Age of Ultron" },
-            { character: "Bruce Banner / Hulk", actor: "Mark Ruffalo", birthYear: 1967, movie: "Avengers: Age of Ultron" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Avengers: Age of Ultron" },
-            { character: "Clint Barton / Hawkeye", actor: "Jeremy Renner", birthYear: 1971, movie: "Avengers: Age of Ultron" },
-            { character: "Wanda Maximoff / Scarlet Witch", actor: "Elizabeth Olsen", birthYear: 1989, movie: "Avengers: Age of Ultron" },
-            { character: "Pietro Maximoff / Quicksilver", actor: "Aaron Taylor-Johnson", birthYear: 1990, movie: "Avengers: Age of Ultron" },
-            { character: "Vision", actor: "Paul Bettany", birthYear: 1971, movie: "Avengers: Age of Ultron" },
-            { character: "Ultron", actor: "James Spader", birthYear: 1960, movie: "Avengers: Age of Ultron" },
-            // Ant-Man (2015)
-            { character: "Scott Lang / Ant-Man", actor: "Paul Rudd", birthYear: 1969, movie: "Ant-Man" },
-            { character: "Hope van Dyne", actor: "Evangeline Lilly", birthYear: 1979, movie: "Ant-Man" },
-            { character: "Hank Pym", actor: "Michael Douglas", birthYear: 1944, movie: "Ant-Man" },
-            { character: "Darren Cross / Yellowjacket", actor: "Corey Stoll", birthYear: 1976, movie: "Ant-Man" },
-            // Captain America: Civil War (2016)
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Captain America: Civil War" },
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Captain America: Civil War" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Captain America: Civil War" },
-            { character: "Bucky Barnes / Winter Soldier", actor: "Sebastian Stan", birthYear: 1982, movie: "Captain America: Civil War" },
-            { character: "Sam Wilson / Falcon", actor: "Anthony Mackie", birthYear: 1978, movie: "Captain America: Civil War" },
-            { character: "T'Challa / Black Panther", actor: "Chadwick Boseman", birthYear: 1976, movie: "Captain America: Civil War" },
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Captain America: Civil War" },
-            { character: "Vision", actor: "Paul Bettany", birthYear: 1971, movie: "Captain America: Civil War" },
-            { character: "Wanda Maximoff / Scarlet Witch", actor: "Elizabeth Olsen", birthYear: 1989, movie: "Captain America: Civil War" },
-            // Doctor Strange (2016)
-            { character: "Stephen Strange / Doctor Strange", actor: "Benedict Cumberbatch", birthYear: 1976, movie: "Doctor Strange" },
-            { character: "Christine Palmer", actor: "Rachel McAdams", birthYear: 1978, movie: "Doctor Strange" },
-            { character: "Baron Mordo", actor: "Chiwetel Ejiofor", birthYear: 1977, movie: "Doctor Strange" },
-            { character: "The Ancient One", actor: "Tilda Swinton", birthYear: 1960, movie: "Doctor Strange" },
-            { character: "Kaecilius", actor: "Mads Mikkelsen", birthYear: 1965, movie: "Doctor Strange" },
-            // Guardians of the Galaxy Vol. 2 (2017)
-            { character: "Peter Quill / Star-Lord", actor: "Chris Pratt", birthYear: 1979, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Gamora", actor: "Zoe Saldana", birthYear: 1978, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Drax the Destroyer", actor: "Dave Bautista", birthYear: 1969, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Groot", actor: "Vin Diesel", birthYear: 1967, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Rocket Raccoon", actor: "Bradley Cooper", birthYear: 1975, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Nebula", actor: "Karen Gillan", birthYear: 1987, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Yondu Udonta", actor: "Michael Rooker", birthYear: 1955, movie: "Guardians of the Galaxy Vol. 2" },
-            { character: "Ego", actor: "Kurt Russell", birthYear: 1951, movie: "Guardians of the Galaxy Vol. 2" },
-            // Spider-Man: Homecoming (2017)
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Spider-Man: Homecoming" },
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Spider-Man: Homecoming" },
-            { character: "Michelle 'MJ' Jones", actor: "Zendaya", birthYear: 1996, movie: "Spider-Man: Homecoming" },
-            { character: "Adrian Toomes / Vulture", actor: "Michael Keaton", birthYear: 1951, movie: "Spider-Man: Homecoming" },
-            { character: "Ned Leeds", actor: "Jacob Batalon", birthYear: 1996, movie: "Spider-Man: Homecoming" },
-            // Thor: Ragnarok (2017)
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Thor: Ragnarok" },
-            { character: "Loki", actor: "Tom Hiddleston", birthYear: 1981, movie: "Thor: Ragnarok" },
-            { character: "Bruce Banner / Hulk", actor: "Mark Ruffalo", birthYear: 1967, movie: "Thor: Ragnarok" },
-            { character: "Valkyrie", actor: "Tessa Thompson", birthYear: 1983, movie: "Thor: Ragnarok" },
-            { character: "Hela", actor: "Cate Blanchett", birthYear: 1969, movie: "Thor: Ragnarok" },
-            { character: "Grandmaster", actor: "Jeff Goldblum", birthYear: 1952, movie: "Thor: Ragnarok" },
-            // Black Panther (2018)
-            { character: "T'Challa / Black Panther", actor: "Chadwick Boseman", birthYear: 1976, movie: "Black Panther" },
-            { character: "Nakia", actor: "Lupita Nyong'o", birthYear: 1983, movie: "Black Panther" },
-            { character: "Okoye", actor: "Danai Gurira", birthYear: 1978, movie: "Black Panther" },
-            { character: "Shuri", actor: "Letitia Wright", birthYear: 1993, movie: "Black Panther" },
-            { character: "Erik Killmonger", actor: "Michael B. Jordan", birthYear: 1987, movie: "Black Panther" },
-            // Avengers: Infinity War (2018)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Avengers: Infinity War" },
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Avengers: Infinity War" },
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Avengers: Infinity War" },
-            { character: "Bruce Banner / Hulk", actor: "Mark Ruffalo", birthYear: 1967, movie: "Avengers: Infinity War" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Avengers: Infinity War" },
-            { character: "Wanda Maximoff / Scarlet Witch", actor: "Elizabeth Olsen", birthYear: 1989, movie: "Avengers: Infinity War" },
-            { character: "Vision", actor: "Paul Bettany", birthYear: 1971, movie: "Avengers: Infinity War" },
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Avengers: Infinity War" },
-            { character: "T'Challa / Black Panther", actor: "Chadwick Boseman", birthYear: 1976, movie: "Avengers: Infinity War" },
-            { character: "Peter Quill / Star-Lord", actor: "Chris Pratt", birthYear: 1979, movie: "Avengers: Infinity War" },
-            { character: "Gamora", actor: "Zoe Saldana", birthYear: 1978, movie: "Avengers: Infinity War" },
-            { character: "Thanos", actor: "Josh Brolin", birthYear: 1968, movie: "Avengers: Infinity War" },
-            // Ant-Man and the Wasp (2018)
-            { character: "Scott Lang / Ant-Man", actor: "Paul Rudd", birthYear: 1969, movie: "Ant-Man and the Wasp" },
-            { character: "Hope van Dyne / Wasp", actor: "Evangeline Lilly", birthYear: 1979, movie: "Ant-Man and the Wasp" },
-            { character: "Hank Pym", actor: "Michael Douglas", birthYear: 1944, movie: "Ant-Man and the Wasp" },
-            { character: "Janet van Dyne", actor: "Michelle Pfeiffer", birthYear: 1958, movie: "Ant-Man and the Wasp" },
-            { character: "Ava Starr / Ghost", actor: "Hannah John-Kamen", birthYear: 1989, movie: "Ant-Man and the Wasp" },
-            // Captain Marvel (2019)
-            { character: "Carol Danvers / Captain Marvel", actor: "Brie Larson", birthYear: 1989, movie: "Captain Marvel" },
-            { character: "Nick Fury", actor: "Samuel L. Jackson", birthYear: 1948, movie: "Captain Marvel" },
-            { character: "Talos", actor: "Ben Mendelsohn", birthYear: 1969, movie: "Captain Marvel" },
-            { character: "Yon-Rogg", actor: "Jude Law", birthYear: 1972, movie: "Captain Marvel" },
-            // Avengers: Endgame (2019)
-            { character: "Tony Stark / Iron Man", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Avengers: Endgame" },
-            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Avengers: Endgame" },
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Avengers: Endgame" },
-            { character: "Bruce Banner / Hulk", actor: "Mark Ruffalo", birthYear: 1967, movie: "Avengers: Endgame" },
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Avengers: Endgame" },
-            { character: "Clint Barton / Hawkeye", actor: "Jeremy Renner", birthYear: 1971, movie: "Avengers: Endgame" },
-            { character: "Thanos", actor: "Josh Brolin", birthYear: 1968, movie: "Avengers: Endgame" },
-            { character: "Carol Danvers / Captain Marvel", actor: "Brie Larson", birthYear: 1989, movie: "Avengers: Endgame" },
-            { character: "Scott Lang / Ant-Man", actor: "Paul Rudd", birthYear: 1969, movie: "Avengers: Endgame" },
-            // Spider-Man: Far From Home (2019)
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Spider-Man: Far From Home" },
-            { character: "Michelle 'MJ' Jones", actor: "Zendaya", birthYear: 1996, movie: "Spider-Man: Far From Home" },
-            { character: "Nick Fury", actor: "Samuel L. Jackson", birthYear: 1948, movie: "Spider-Man: Far From Home" },
-            { character: "Quentin Beck / Mysterio", actor: "Jake Gyllenhaal", birthYear: 1980, movie: "Spider-Man: Far From Home" },
-            // Black Widow (2021)
-            { character: "Natasha Romanoff / Black Widow", actor: "Scarlett Johansson", birthYear: 1984, movie: "Black Widow" },
-            { character: "Yelena Belova", actor: "Florence Pugh", birthYear: 1996, movie: "Black Widow" },
-            { character: "Alexei Shostakov / Red Guardian", actor: "David Harbour", birthYear: 1975, movie: "Black Widow" },
-            { character: "Melina Vostokoff", actor: "Rachel Weisz", birthYear: 1970, movie: "Black Widow" },
-            { character: "Dreykov", actor: "Ray Winstone", birthYear: 1957, movie: "Black Widow" },
-            // Shang-Chi and the Legend of the Ten Rings (2021)
-            { character: "Shang-Chi", actor: "Simu Liu", birthYear: 1989, movie: "Shang-Chi and the Legend of the Ten Rings" },
-            { character: "Katy", actor: "Awkwafina", birthYear: 1988, movie: "Shang-Chi and the Legend of the Ten Rings" },
-            { character: "Xu Wenwu", actor: "Tony Leung", birthYear: 1962, movie: "Shang-Chi and the Legend of the Ten Rings" },
-            { character: "Ying Li", actor: "Fala Chen", birthYear: 1983, movie: "Shang-Chi and the Legend of the Ten Rings" },
-            // Eternals (2021)
-            { character: "Sersi", actor: "Gemma Chan", birthYear: 1982, movie: "Eternals" },
-            { character: "Ikaris", actor: "Richard Madden", birthYear: 1986, movie: "Eternals" },
-            { character: "Thena", actor: "Angelina Jolie", birthYear: 1975, movie: "Eternals" },
-            { character: "Ajak", actor: "Salma Hayek", birthYear: 1966, movie: "Eternals" },
-            { character: "Kingoo", actor: "Kumail Nanjiani", birthYear: 1978, movie: "Eternals" },
-            // Spider-Man: No Way Home (2021)
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Spider-Man: No Way Home" },
-            { character: "Michelle 'MJ' Jones", actor: "Zendaya", birthYear: 1996, movie: "Spider-Man: No Way Home" },
-            { character: "Stephen Strange / Doctor Strange", actor: "Benedict Cumberbatch", birthYear: 1976, movie: "Spider-Man: No Way Home" },
-            { character: "Norman Osborn / Green Goblin", actor: "Willem Dafoe", birthYear: 1955, movie: "Spider-Man: No Way Home" },
-            { character: "Otto Octavius / Doctor Octopus", actor: "Alfred Molina", birthYear: 1953, movie: "Spider-Man: No Way Home" },
-            // Doctor Strange in the Multiverse of Madness (2022)
-            { character: "Stephen Strange / Doctor Strange", actor: "Benedict Cumberbatch", birthYear: 1976, movie: "Doctor Strange in the Multiverse of Madness" },
-            { character: "Wanda Maximoff / Scarlet Witch", actor: "Elizabeth Olsen", birthYear: 1989, movie: "Doctor Strange in the Multiverse of Madness" },
-            { character: "Christine Palmer", actor: "Rachel McAdams", birthYear: 1978, movie: "Doctor Strange in the Multiverse of Madness" },
-            { character: "America Chavez", actor: "Xochitl Gomez", birthYear: 2006, movie: "Doctor Strange in the Multiverse of Madness" },
-            // Thor: Love and Thunder (2022)
-            { character: "Thor", actor: "Chris Hemsworth", birthYear: 1983, movie: "Thor: Love and Thunder" },
-            { character: "Jane Foster / Mighty Thor", actor: "Natalie Portman", birthYear: 1981, movie: "Thor: Love and Thunder" },
-            { character: "Valkyrie", actor: "Tessa Thompson", birthYear: 1983, movie: "Thor: Love and Thunder" },
-            { character: "Gorr the God Butcher", actor: "Christian Bale", birthYear: 1974, movie: "Thor: Love and Thunder" },
-            // Black Panther: Wakanda Forever (2022)
-            { character: "Shuri / Black Panther", actor: "Letitia Wright", birthYear: 1993, movie: "Black Panther: Wakanda Forever" },
-            { character: "Nakia", actor: "Lupita Nyong'o", birthYear: 1983, movie: "Black Panther: Wakanda Forever" },
-            { character: "Okoye", actor: "Danai Gurira", birthYear: 1978, movie: "Black Panther: Wakanda Forever" },
-            { character: "Namor", actor: "Tenoch Huerta", birthYear: 1981, movie: "Black Panther: Wakanda Forever" },
-            // Ant-Man and the Wasp: Quantumania (2023)
-            { character: "Scott Lang / Ant-Man", actor: "Paul Rudd", birthYear: 1969, movie: "Ant-Man and the Wasp: Quantumania" },
-            { character: "Hope van Dyne / Wasp", actor: "Evangeline Lilly", birthYear: 1979, movie: "Ant-Man and the Wasp: Quantumania" },
-            { character: "Hank Pym", actor: "Michael Douglas", birthYear: 1944, movie: "Ant-Man and the Wasp: Quantumania" },
-            { character: "Janet van Dyne", actor: "Michelle Pfeiffer", birthYear: 1958, movie: "Ant-Man and the Wasp: Quantumania" },
-            { character: "Kang the Conqueror", actor: "Jonathan Majors", birthYear: 1989, movie: "Ant-Man and the Wasp: Quantumania" },
-            // Guardians of the Galaxy Vol. 3 (2023)
-            { character: "Peter Quill / Star-Lord", actor: "Chris Pratt", birthYear: 1979, movie: "Guardians of the Galaxy Vol. 3" },
-            { character: "Gamora", actor: "Zoe Saldana", birthYear: 1978, movie: "Guardians of the Galaxy Vol. 3" },
-            { character: "Drax the Destroyer", actor: "Dave Bautista", birthYear: 1969, movie: "Guardians of the Galaxy Vol. 3" },
-            { character: "Groot", actor: "Vin Diesel", birthYear: 1967, movie: "Guardians of the Galaxy Vol. 3" },
-            { character: "Rocket Raccoon", actor: "Bradley Cooper", birthYear: 1975, movie: "Guardians of the Galaxy Vol. 3" },
-            { character: "Nebula", actor: "Karen Gillan", birthYear: 1987, movie: "Guardians of the Galaxy Vol. 3" },
-            { character: "High Evolutionary", actor: "Chukwudi Iwuji", birthYear: 1975, movie: "Guardians of the Galaxy Vol. 3" },
-            // The Marvels (2023)
-            { character: "Carol Danvers / Captain Marvel", actor: "Brie Larson", birthYear: 1989, movie: "The Marvels" },
-            { character: "Monica Rambeau", actor: "Teyonah Parris", birthYear: 1987, movie: "The Marvels" },
-            { character: "Kamala Khan / Ms. Marvel", actor: "Iman Vellani", birthYear: 2002, movie: "The Marvels" },
-            { character: "Nick Fury", actor: "Samuel L. Jackson", birthYear: 1948, movie: "The Marvels" },
-            // Deadpool & Wolverine (2024)
-            { character: "Wade Wilson / Deadpool", actor: "Ryan Reynolds", birthYear: 1976, movie: "Deadpool & Wolverine" },
-            { character: "Logan / Wolverine", actor: "Hugh Jackman", birthYear: 1968, movie: "Deadpool & Wolverine" },
-            { character: "Vanessa Carlysle", actor: "Morena Baccarin", birthYear: 1979, movie: "Deadpool & Wolverine" },
-            { character: "Emma Corrin / Cassandra Nova", actor: "Emma Corrin", birthYear: 1995, movie: "Deadpool & Wolverine" },
-            // Captain America: Brave New World (2025)
-            { character: "Sam Wilson / Captain America", actor: "Anthony Mackie", birthYear: 1978, movie: "Captain America: Brave New World" },
-            { character: "Thaddeus Ross", actor: "Harrison Ford", birthYear: 1942, movie: "Captain America: Brave New World" },
-            { character: "Isaiah Bradley", actor: "Carl Lumbly", birthYear: 1951, movie: "Captain America: Brave New World" },
-            { character: "Joaquin Torres / Falcon", actor: "Danny Ramirez", birthYear: 1992, movie: "Captain America: Brave New World" },
-            // Thunderbolts* (2025)
-            { character: "Yelena Belova", actor: "Florence Pugh", birthYear: 1996, movie: "Thunderbolts*" },
-            { character: "Bucky Barnes / Winter Soldier", actor: "Sebastian Stan", birthYear: 1982, movie: "Thunderbolts*" },
-            { character: "Alexei Shostakov / Red Guardian", actor: "David Harbour", birthYear: 1975, movie: "Thunderbolts*" },
-            { character: "Valentina Allegra de Fontaine", actor: "Julia Louis-Dreyfus", birthYear: 1961, movie: "Thunderbolts*" },
-            { character: "Ava Starr / Ghost", actor: "Hannah John-Kamen", birthYear: 1989, movie: "Thunderbolts*" },
-            // The Fantastic Four: First Steps (2025)
-            { character: "Reed Richards / Mr. Fantastic", actor: "Pedro Pascal", birthYear: 1975, movie: "The Fantastic Four: First Steps" },
-            { character: "Sue Storm / Invisible Woman", actor: "Vanessa Kirby", birthYear: 1988, movie: "The Fantastic Four: First Steps" },
-            { character: "Johnny Storm / Human Torch", actor: "Joseph Quinn", birthYear: 1993, movie: "The Fantastic Four: First Steps" },
-            { character: "Ben Grimm / The Thing", actor: "Ebon Moss-Bachrach", birthYear: 1977, movie: "The Fantastic Four: First Steps" },
-            // Avengers: Doomsday (2026)
-            { character: "Doctor Doom", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Avengers: Doomsday" },
-            // Spider-Man 4 (2026)
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Spider-Man 4" },
-            { character: "Michelle 'MJ' Jones", actor: "Zendaya", birthYear: 1996, movie: "Spider-Man 4" },
-            // Avengers: Secret Wars (2027)
-            // Note: Casting not fully announced, placeholders based on expected returns
-            { character: "Peter Parker / Spider-Man", actor: "Tom Holland", birthYear: 1996, movie: "Avengers: Secret Wars" },
-            { character: "Doctor Doom", actor: "Robert Downey Jr.", birthYear: 1965, movie: "Avengers: Secret Wars" },
-            // Blade (TBD)
-            { character: "Eric Brooks / Blade", actor: "Mahershala Ali", birthYear: 1974, movie: "Blade" },
-            // Shang-Chi 2 (TBD)
-            { character: "Shang-Chi", actor: "Simu Liu", birthYear: 1989, movie: "Shang-Chi 2" },
-            { character: "Katy", actor: "Awkwafina", birthYear: 1988, movie: "Shang-Chi 2" }
+            { character: "Steve Rogers / Captain America", actor: "Chris Evans", birthYear: 1981, movie: "Captain America: The First Avenger", actorGender: "male" },
+            { character: "Bucky Barnes", actor: "Sebastian Stan", birthYear: 1982, movie: "Captain America: The First Avenger", actorGender: "male" },
+            { character: "Peggy Carter", actor: "Hayley Atwell", birthYear: 1982, movie: "Captain America: The First Avenger", actorGender: "female" },
+            { character: "Johann Schmidt / Red Skull", actor: "Hugo Weaving", birthYear: 1960, movie: "Captain America: The First Avenger", actorGender: "male" },
+            { character: "Howard Stark", actor: "Dominic Cooper", birthYear: 1978, movie: "Captain America: The First Avenger", actorGender: "male" },
         ];
 
         // Function to calculate age
@@ -885,6 +720,8 @@
                 return;
             }
             timelineContainer.innerHTML = '';
+
+            document.querySelectorAll('script[type="application/ld+json"]').forEach(script => script.remove());
 
             data.forEach((item, index) => {
                 const timelineItem = document.createElement('div');
@@ -972,14 +809,20 @@
         function filterContent(filterType) {
             const timelineSection = document.getElementById('timeline-section');
             const whoPlaysWhoSection = document.getElementById('who-plays-who-section');
+            const whoPlaysWhoFilter = document.getElementById('who-plays-who-filter');
+            const sortOptions = document.getElementById('sort-options');
 
             if (filterType === 'who-plays-who') {
                 timelineSection.classList.add('hidden');
                 whoPlaysWhoSection.classList.remove('hidden');
+                whoPlaysWhoFilter.classList.remove('hidden');
+                sortOptions.parentElement.classList.add('hidden');
                 renderWhoPlaysWho(whoPlaysWho);
             } else {
                 timelineSection.classList.remove('hidden');
                 whoPlaysWhoSection.classList.add('hidden');
+                whoPlaysWhoFilter.classList.add('hidden');
+                sortOptions.parentElement.classList.remove('hidden');
                 let filteredData = mcuContent;
                 if (filterType !== 'all') {
                     filteredData = mcuContent.filter(item => item.type === filterType);
@@ -996,14 +839,69 @@
                     btn.setAttribute('aria-selected', 'true');
                 }
             });
+
+            const activeSection = filterType === 'who-plays-who' ? whoPlaysWhoSection : timelineSection;
+            activeSection.querySelector('[tabindex="0"]').focus();
         }
+
+        // Function to filter "Who Plays Who" data
+        function filterWhoPlaysWho(filterType, query, sortOption) {
+            query = query.toLowerCase().trim();
+            let filteredData = whoPlaysWho;
+
+            if (filterType === 'character') {
+                filteredData = whoPlaysWho.filter(item => item.character.toLowerCase().includes(query));
+            } else if (filterType === 'actor') {
+                filteredData = whoPlaysWho.filter(item => item.actor.toLowerCase().includes(query));
+            } else if (filterType === 'movie') {
+                filteredData = whoPlaysWho.filter(item => item.movie.toLowerCase().includes(query));
+            } else if (filterType === 'age-men') {
+                filteredData = whoPlaysWho.filter(item => item.actorGender === 'male');
+            } else if (filterType === 'age-women') {
+                filteredData = whoPlaysWho.filter(item => item.actorGender === 'female');
+            }
+
+            if (sortOption === 'age-asc') {
+                filteredData.sort((a, b) => calculateAge(a.birthYear) - calculateAge(b.birthYear));
+            } else if (sortOption === 'age-desc') {
+                filteredData.sort((a, b) => calculateAge(b.birthYear) - calculateAge(a.birthYear));
+            }
+
+            renderWhoPlaysWho(filteredData);
+        }
+
+        // Event listeners for "Who Plays Who" filter and sort
+        const whoPlaysWhoFilterOptions = document.getElementById('who-plays-who-filter-options');
+        const whoPlaysWhoSortOptions = document.getElementById('who-plays-who-sort-options');
+        const whoPlaysWhoSearch = document.getElementById('who-plays-who-search');
+
+        whoPlaysWhoFilterOptions.addEventListener('change', () => {
+            const filterType = whoPlaysWhoFilterOptions.value;
+            const sortOption = whoPlaysWhoSortOptions.value;
+            const query = whoPlaysWhoSearch.value;
+            filterWhoPlaysWho(filterType, query, sortOption);
+        });
+
+        whoPlaysWhoSortOptions.addEventListener('change', () => {
+            const filterType = whoPlaysWhoFilterOptions.value;
+            const sortOption = whoPlaysWhoSortOptions.value;
+            const query = whoPlaysWhoSearch.value;
+            filterWhoPlaysWho(filterType, query, sortOption);
+        });
+
+        whoPlaysWhoSearch.addEventListener('input', () => {
+            const filterType = whoPlaysWhoFilterOptions.value;
+            const sortOption = whoPlaysWhoSortOptions.value;
+            const query = whoPlaysWhoSearch.value;
+            filterWhoPlaysWho(filterType, query, sortOption);
+        });
 
         // Search and Autocomplete Functionality
         function setupSearch() {
             const searchInput = document.getElementById('search-input');
             const suggestionsContainer = document.getElementById('autocomplete-suggestions');
 
-            searchInput.addEventListener('input', () => {
+            const handleInput = debounce(() => {
                 const query = searchInput.value.toLowerCase().trim();
                 suggestionsContainer.innerHTML = '';
                 suggestionsContainer.classList.add('hidden');
@@ -1044,7 +942,9 @@
                         suggestionsContainer.appendChild(div);
                     });
                 }
-            });
+            }, 300);
+
+            searchInput.addEventListener('input', handleInput);
 
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
@@ -1114,6 +1014,54 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
+
+        // Debounce function
+        function debounce(func, delay) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // Function to sort content
+        function sortContent(data, sortBy) {
+            switch (sortBy) {
+                case 'year-asc':
+                    return data.sort((a, b) => a.year - b.year);
+                case 'year-desc':
+                    return data.sort((a, b) => b.year - a.year);
+                case 'critic-asc':
+                    return data.sort((a, b) => (a.criticScore === 'TBD' ? Infinity : a.criticScore) - (b.criticScore === 'TBD' ? Infinity : b.criticScore));
+                case 'critic-desc':
+                    return data.sort((a, b) => (b.criticScore === 'TBD' ? -Infinity : b.criticScore) - (a.criticScore === 'TBD' ? -Infinity : a.criticScore));
+                case 'audience-asc':
+                    return data.sort((a, b) => (a.audienceScore === 'TBD' ? Infinity : a.audienceScore) - (b.audienceScore === 'TBD' ? Infinity : b.audienceScore));
+                case 'audience-desc':
+                    return data.sort((a, b) => (b.audienceScore === 'TBD' ? -Infinity : b.audienceScore) - (a.audienceScore === 'TBD' ? -Infinity : a.audienceScore));
+                default:
+                    return data;
+            }
+        }
+
+        // Update sorting when the dropdown changes
+        document.getElementById('sort-options').addEventListener('change', (event) => {
+            const sortBy = event.target.value;
+            const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            let filteredData = mcuContent;
+
+            if (activeFilter !== 'all' && activeFilter !== 'who-plays-who') {
+                filteredData = mcuContent.filter(item => item.type === activeFilter);
+            }
+
+            const sortedData = sortContent(filteredData, sortBy);
+
+            if (activeFilter === 'who-plays-who') {
+                renderWhoPlaysWho(sortedData);
+            } else {
+                renderTimeline(sortedData);
+            }
+        });
 
         // Initialize Event Listeners
         function initialize() {
