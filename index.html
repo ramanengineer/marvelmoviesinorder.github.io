@@ -13,6 +13,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.marvelmoviesinorder.com/">
     <meta property="og:image" content="https://www.marvelmoviesinorder.com/images/marvel-timeline-og.jpg">
+    <meta property="og:image:alt" content="Marvel Cinematic Universe Timeline Overview">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Marvel Universe Timeline | MarvelMoviesInOrder.com">
     <meta name="twitter:description" content="Your guide to the Marvel Cinematic Universe timeline, featuring all MCU movies and TV shows in order.">
@@ -20,10 +21,15 @@
     <link rel="canonical" href="https://www.marvelmoviesinorder.com/">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <meta name="theme-color" content="#ed1d24">
-    <meta name="color-scheme" content="dark">
+    <meta name="color-scheme" content="light dark">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preload" href="https://www.marvelmoviesinorder.com/images/marvel-timeline-og.jpg" as="image">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700;800&display=swap" as="style">
     <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
     <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="/js/search.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -471,7 +477,16 @@
             "@type": "SearchAction",
             "target": "https://www.marvelmoviesinorder.com/?search={search_term_string}",
             "query-input": "required name=search_term_string"
-        }
+        },
+        "@type": "Organization",
+        "name": "MarvelMoviesInOrder.com",
+        "url": "https://www.marvelmoviesinorder.com/",
+        "logo": "https://www.marvelmoviesinorder.com/images/logo.png",
+        "sameAs": [
+            "https://www.facebook.com/MarvelMoviesInOrder",
+            "https://twitter.com/MarvelMoviesInOrder",
+            "https://www.instagram.com/MarvelMoviesInOrder"
+        ]
     }
     </script>
 </head>
